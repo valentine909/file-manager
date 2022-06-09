@@ -1,12 +1,9 @@
 import os from 'os';
 import { createInterface } from 'readline';
+import { parseArgs } from './parse.js';
+import { settings } from './settings.js';
 
-export const settings = {
-  currentPath: '',
-  username: '',
-};
-
-async function mainLoop() {
+const mainLoop = async () => {
   console.log(`Welcome to the File Manager, ${settings.username}!`);
   console.log(`You are currently in ${settings.currentPath}`);
   const readlineInterface = createInterface({
@@ -14,14 +11,14 @@ async function mainLoop() {
     output: process.stdout,
   });
   readlineInterface.on('line', (line) => {
-    console.log(line);
+    parseArgs(line.split(' '));
     console.log(`You are currently in ${settings.currentPath}`);
   });
   process.on('exit', () => {
     readlineInterface.close();
     console.log(`Thank you for using File Manager, ${settings.username}!`);
   });
-}
+};
 
 const validateArgs = () => {
   if (process.argv.length <= 2) {
