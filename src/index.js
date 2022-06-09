@@ -1,4 +1,4 @@
-import os from 'os';
+import { homedir } from 'os';
 import { createInterface } from 'readline';
 import { parseArgs } from './parse.js';
 import { settings } from './settings.js';
@@ -36,7 +36,7 @@ const validateUsername = (flag) => {
 
 function init() {
   let flag;
-  settings.currentPath = os.homedir();
+  settings.currentPath = homedir();
   validateArgs();
   [flag, settings.username] = process.argv.slice(2)[0].split('=');
   validateUsername(flag);
