@@ -14,8 +14,7 @@ export const listDirectory = async (path) => {
 };
 
 export const changeDirectory = (current, destination) => {
-  const dest = destination.length ? destination[0] : '';
-  const newPath = resolve(current, dest);
+  const newPath = resolve(current, destination);
   if (existsSync(newPath)) {
     return realpathSync.native(newPath);
   } else {

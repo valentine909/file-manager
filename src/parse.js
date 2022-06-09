@@ -1,5 +1,7 @@
 import { settings, messages, commands } from './settings.js';
 import { goUp, listDirectory, changeDirectory } from './navigation.js';
+import { cat } from './fiop.js';
+import { resolve } from 'path';
 
 export async function parseArgs(args) {
   switch (args[0]) {
@@ -12,11 +14,11 @@ export async function parseArgs(args) {
     case commands.cd:
       settings.currentPath = changeDirectory(
         settings.currentPath,
-        args.slice(1)
+        args.slice(1)[0] ?? ''
       );
       break;
     case commands.cat:
-      //
+      await cat(resolve(settings.currentPath, args.slice(1)[0] ?? ''));
       break;
     case commands.add:
       //
