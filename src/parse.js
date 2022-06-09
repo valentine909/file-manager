@@ -1,5 +1,5 @@
 import { settings } from './settings.js';
-import { goUp, listDirectory } from './fiop.js';
+import { goUp, listDirectory, changeDirectory } from './fiop.js';
 
 export async function parseArgs(args) {
   switch (args[0]) {
@@ -8,6 +8,12 @@ export async function parseArgs(args) {
       break;
     case 'ls':
       await listDirectory(settings.currentPath);
+      break;
+    case 'cd':
+      settings.currentPath = changeDirectory(
+        settings.currentPath,
+        args.slice(1)
+      );
       break;
     case 'cat':
       //
