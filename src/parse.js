@@ -1,54 +1,54 @@
-import { settings } from './settings.js';
+import { settings, messages, commands } from './settings.js';
 import { goUp, listDirectory, changeDirectory } from './navigation.js';
 
 export async function parseArgs(args) {
   switch (args[0]) {
-    case 'up':
+    case commands.up:
       settings.currentPath = goUp(settings.currentPath);
       break;
-    case 'ls':
+    case commands.ls:
       await listDirectory(settings.currentPath);
       break;
-    case 'cd':
+    case commands.cd:
       settings.currentPath = changeDirectory(
         settings.currentPath,
         args.slice(1)
       );
       break;
-    case 'cat':
+    case commands.cat:
       //
       break;
-    case 'add':
+    case commands.add:
       //
       break;
-    case 'rn':
+    case commands.rn:
       //
       break;
-    case 'cp':
+    case commands.cp:
       //
       break;
-    case 'mv':
+    case commands.mv:
       //
       break;
-    case 'rm':
+    case commands.rm:
       //
       break;
-    case 'os':
+    case commands.os:
       //
       break;
-    case 'hash':
+    case commands.hash:
       //
       break;
-    case 'compress':
+    case commands.compress:
       //
       break;
-    case 'decompress':
+    case commands.decompress:
       //
       break;
-    case '.exit':
+    case commands.exit:
       process.exit();
       break;
     default:
-      console.log('Invalid input');
+      console.log(messages.invalidInput);
   }
 }

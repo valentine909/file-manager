@@ -1,6 +1,7 @@
 import { dirname, resolve } from 'path';
 import { readdir } from 'fs/promises';
 import { existsSync, realpathSync } from 'fs';
+import { messages } from './settings.js';
 
 export const goUp = (path) => {
   return dirname(path);
@@ -18,7 +19,7 @@ export const changeDirectory = (current, destination) => {
   if (existsSync(newPath)) {
     return realpathSync.native(newPath);
   } else {
-    console.log('Operation failed');
+    console.log(messages.operationFailed);
     return current;
   }
 };
