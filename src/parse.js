@@ -1,5 +1,5 @@
 import { settings } from './settings.js';
-import { goUp, listDirectory, changeDirectory } from './fiop.js';
+import { goUp, listDirectory, changeDirectory } from './navigation.js';
 
 export async function parseArgs(args) {
   switch (args[0]) {
