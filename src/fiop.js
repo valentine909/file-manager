@@ -1,6 +1,6 @@
 import { existsSync, createReadStream } from 'fs';
 import { messages } from './settings.js';
-import { writeFile, access, rename } from 'fs/promises';
+import { writeFile, access, rename, copyFile } from 'fs/promises';
 import { dirname, resolve } from 'path';
 
 export const cat = async (path) => {
@@ -46,6 +46,14 @@ export const renameFile = async (path, old, newname) => {
     const newPath = dirname(oldFile);
     const newFile = resolve(newPath, newname);
     await rename(oldFile, newFile);
+  } catch (error) {
+    console.log(messages.operationFailed);
+  }
+};
+
+export const _copyFile = async (source, destination) => {
+  try {
+    await copyFile(source, destination);
   } catch (error) {
     console.log(messages.operationFailed);
   }

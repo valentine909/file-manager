@@ -1,6 +1,6 @@
 import { settings, messages, commands } from './settings.js';
 import { goUp, listDirectory, changeDirectory } from './navigation.js';
-import { cat, addFile, renameFile } from './fiop.js';
+import { cat, addFile, renameFile, _copyFile } from './fiop.js';
 import { resolve } from 'path';
 
 export async function parseArgs(args) {
@@ -31,7 +31,7 @@ export async function parseArgs(args) {
       );
       break;
     case commands.cp:
-      //
+      await _copyFile(args.slice(1)[0] ?? '', args.slice(1)[1] ?? '');
       break;
     case commands.mv:
       //
