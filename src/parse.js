@@ -9,6 +9,7 @@ import {
   remove,
 } from './fiop.js';
 import { resolve } from 'path';
+import { osCommands } from './os.js';
 
 export async function parseArgs(args) {
   switch (args[0]) {
@@ -47,7 +48,7 @@ export async function parseArgs(args) {
       await remove(settings.currentPath, args.slice(1)[0] ?? '');
       break;
     case commands.os:
-      //
+      osCommands(args.slice(1)[0] ?? '');
       break;
     case commands.hash:
       //
