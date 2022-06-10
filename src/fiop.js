@@ -67,3 +67,11 @@ export const moveFile = async (source, destination) => {
     console.log(messages.operationFailed);
   }
 };
+
+export const remove = async (path, source) => {
+  try {
+    await rm(resolve(path, source), {recursive: true});
+  } catch (error) {
+    console.log(messages.operationFailed);
+  }
+};
