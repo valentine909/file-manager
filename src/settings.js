@@ -11,6 +11,7 @@ export const messages = {
   currentPath: '\nYou are currently in ',
   hello: 'Welcome to the File Manager, ',
   goodbye: 'Thank you for using File Manager, ',
+  fileExists: 'File exists',
 };
 
 export const commands = {

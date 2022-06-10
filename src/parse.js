@@ -1,6 +1,6 @@
 import { settings, messages, commands } from './settings.js';
 import { goUp, listDirectory, changeDirectory } from './navigation.js';
-import { cat } from './fiop.js';
+import { cat, addFile } from './fiop.js';
 import { resolve } from 'path';
 
 export async function parseArgs(args) {
@@ -21,7 +21,7 @@ export async function parseArgs(args) {
       await cat(resolve(settings.currentPath, args.slice(1)[0] ?? ''));
       break;
     case commands.add:
-      //
+      await addFile(settings.currentPath, args.slice(1)[0] ?? '');
       break;
     case commands.rn:
       //
