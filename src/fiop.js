@@ -1,6 +1,6 @@
-import { existsSync, createReadStream } from 'fs';
+import { existsSync, createReadStream, createWriteStream } from 'fs';
 import { messages } from './settings.js';
-import { writeFile, access, rename, copyFile, rm } from 'fs/promises';
+import { writeFile, access, rename, rm } from 'fs/promises';
 import { dirname, resolve } from 'path';
 
 export const cat = async (path) => {
@@ -29,7 +29,7 @@ export const cat = async (path) => {
 
 export const addFile = async (path, filename) => {
   const file = resolve(path, filename);
-  if (!access(file)) {
+  if (!(await access(file))) {
     try {
       await writeFile(file, '');
     } catch (error) {
@@ -52,25 +52,42 @@ export const renameFile = async (path, old, newname) => {
 };
 
 export const _copyFile = async (source, destination) => {
-  try {
-    await copyFile(source, destination);
-  } catch (error) {
+  if (!existsSync(source) || existsSync(destination)) {
     console.log(messages.operationFailed);
+    return;
   }
+  return new Promise((resolve1, reject) => {
+    const reader = createReadStream(source);
+    const writer = createWriteStream(destination);
+    reader.on('error', () => {
+      console.log(messages.operationFailed);
+      reject('error');
+    });
+    writer.on('error', () => {
+      console.log(messages.operationFailed);
+      reject('error');
+    });
+    reader.pipe(writer);
+    reader.on('end', () => {
+      resolve1('success');
+    });
+  });
 };
 
 export const moveFile = async (source, destination) => {
-  try {
-    await copyFile(source, destination);
-    await rm(source);
-  } catch (error) {
-    console.log(messages.operationFailed);
+  const message = await _copyFile(source, destination);
+  if (message === 'success') {
+    try {
+      await rm(source);
+    } catch (error) {
+      console.log(messages.operationFailed);
+    }
   }
 };
 
 export const remove = async (path, source) => {
   try {
-    await rm(resolve(path, source), {recursive: true});
+    await rm(resolve(path, source), { recursive: true });
   } catch (error) {
     console.log(messages.operationFailed);
   }
