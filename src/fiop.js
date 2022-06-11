@@ -1,7 +1,7 @@
 import { existsSync, createReadStream, createWriteStream } from 'fs';
 import { messages } from './settings.js';
 import { writeFile, access, rename, rm } from 'fs/promises';
-import { dirname, resolve } from 'path';
+import { dirname, resolve, basename } from 'path';
 
 export const cat = async (path) => {
   return new Promise((resolve) => {
@@ -56,9 +56,10 @@ export const _copyFile = async (source, destination) => {
     console.log(messages.operationFailed);
     return;
   }
+  const fileName = basename(source);
   return new Promise((resolve1, reject) => {
     const reader = createReadStream(source);
-    const writer = createWriteStream(destination);
+    const writer = createWriteStream(resolve(destination, fileName));
     reader.on('error', () => {
       console.log(messages.operationFailed);
       reject('error');
