@@ -10,6 +10,7 @@ import {
 } from './fiop.js';
 import { resolve } from 'path';
 import { osCommands } from './os.js';
+import { calculateHash } from './hash.js';
 
 export async function parseArgs(args) {
   switch (args[0]) {
@@ -51,7 +52,7 @@ export async function parseArgs(args) {
       osCommands(args.slice(1)[0] ?? '');
       break;
     case commands.hash:
-      //
+      await calculateHash(settings.currentPath, args.slice(1)[0] ?? '');
       break;
     case commands.compress:
       //

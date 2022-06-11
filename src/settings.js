@@ -17,6 +17,7 @@ export const messages = {
   homedir: 'Your home directory is: ',
   username: 'Your system user name is: ',
   architecture: 'You CPU architecture is: ',
+  hash: 'File provided has a following hash: ',
 };
 
 export const commands = {
