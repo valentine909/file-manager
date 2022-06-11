@@ -11,6 +11,7 @@ import {
 import { resolve } from 'path';
 import { osCommands } from './os.js';
 import { calculateHash } from './hash.js';
+import { fileArchiver } from './archive.js';
 
 export async function parseArgs(args) {
   switch (args[0]) {
@@ -55,10 +56,20 @@ export async function parseArgs(args) {
       await calculateHash(settings.currentPath, args.slice(1)[0] ?? '');
       break;
     case commands.compress:
-      //
+      await fileArchiver(
+        settings.currentPath,
+        args.slice(1)[0] ?? '',
+        args.slice(1)[1] ?? '',
+        true
+      );
       break;
     case commands.decompress:
-      //
+      await fileArchiver(
+        settings.currentPath,
+        args.slice(1)[0] ?? '',
+        args.slice(1)[1] ?? '',
+        false
+      );
       break;
     case commands.exit:
       process.exit();
