@@ -9,5 +9,11 @@
   },
   "keywords": [],
   "author": "Valentine Nazarov",
-  "license": "ISC"
+  "license": "ISC",
+  "prettier": {
+    "singleQuote": true,
+    "bracketSpacing": true,
+    "tabWidth": 2,
+    "endOfLine": "lf"
+  }
 }

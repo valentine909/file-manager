@@ -1,26 +1,46 @@
-import os from "os";
-import { createInterface } from "readline";
+import { homedir } from 'os';
+import { createInterface } from 'readline';
+import { parseArgs } from './parse.js';
+import { messages, settings } from './settings.js';
 
-const validateStartFlag = (flag) => {
-  return flag === "--username";
+const mainLoop = async () => {
+  console.log(messages.hello + settings.username + '!');
+  console.log(messages.currentPath + settings.currentPath);
+  const readlineInterface = createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+  readlineInterface.on('line', async (line) => {
+    await parseArgs(line.split(' '));
+    console.log(messages.currentPath + settings.currentPath);
+  });
+  process.on('exit', () => {
+    readlineInterface.close();
+    console.log(messages.goodbye + settings.username + '!');
+  });
 };
 
-let flag;
-let username;
-[flag, username] = process.argv.slice(2)[0].split("=");
-console.log(`Welcome to the File Manager, ${username}!`);
+const validateArgs = () => {
+  if (process.argv.length <= 2) {
+    console.log(messages.insufficientArgs);
+    process.exit();
+  }
+};
 
-console.log(validateStartFlag(flag));
-let currentPath = os.homedir();
-console.log(`You are currently in ${currentPath}`);
-const readlineInterface = createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-readlineInterface.on("line", (line) => {
-  console.log(line);
-});
-process.on("SIGINT", () => {
-  readlineInterface.close();
-  console.log(`Thank you for using File Manager, ${username}!`);
-});
+const validateUsername = (flag) => {
+  if (flag !== '--username' || !settings.username) {
+    console.log(messages.incorrectUsername);
+    process.exit();
+  }
+};
+
+function init() {
+  let flag;
+  settings.currentPath = homedir();
+  validateArgs();
+  [flag, settings.username] = process.argv.slice(2)[0].split('=');
+  validateUsername(flag);
+  mainLoop().then();
+}
+
+init();
