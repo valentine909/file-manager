@@ -49,7 +49,7 @@ export const renameFile = async (path, old, newname) => {
 };
 
 export const _copyFile = async (source, destination) => {
-  if (!existsSync(source) || existsSync(destination)) {
+  if (!existsSync(source)) {
     console.log(messages.operationFailed);
     return;
   }
@@ -58,12 +58,10 @@ export const _copyFile = async (source, destination) => {
     const reader = createReadStream(source);
     const writer = createWriteStream(resolve(destination, fileName));
     reader.on('error', () => {
-      console.log(messages.operationFailed);
-      reject('error');
+      reject(messages.operationFailed);
     });
     writer.on('error', () => {
-      console.log(messages.operationFailed);
-      reject('error');
+      reject(messages.operationFailed);
     });
     reader.pipe(writer);
     reader.on('end', () => {

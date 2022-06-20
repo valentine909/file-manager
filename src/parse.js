@@ -41,10 +41,10 @@ export async function parseArgs(args) {
       );
       break;
     case commands.cp:
-      await _copyFile(args.slice(1)[0] ?? '', args.slice(1)[1] ?? '');
+      await _copyFile(args.slice(1)[0] ?? '', args.slice(1)[1] ?? '').catch(console.log);
       break;
     case commands.mv:
-      await moveFile(args.slice(1)[0] ?? '', args.slice(1)[1] ?? '');
+      await moveFile(args.slice(1)[0] ?? '', args.slice(1)[1] ?? '').catch(console.log);
       break;
     case commands.rm:
       await remove(settings.currentPath, args.slice(1)[0] ?? '');
