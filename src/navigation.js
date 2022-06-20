@@ -1,6 +1,6 @@
 import { dirname, resolve } from 'path';
 import { readdir } from 'fs/promises';
-import { existsSync, realpathSync } from 'fs';
+import { existsSync, realpathSync, lstatSync } from 'fs';
 import { messages } from './settings.js';
 
 export const goUp = (path) => {
@@ -15,7 +15,7 @@ export const listDirectory = async (path) => {
 
 export const changeDirectory = (current, destination) => {
   const newPath = resolve(current, destination);
-  if (existsSync(newPath)) {
+  if (existsSync(newPath) && lstatSync(newPath).isDirectory()) {
     return realpathSync.native(newPath);
   } else {
     console.log(messages.operationFailed);
