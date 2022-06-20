@@ -1,6 +1,6 @@
 import { existsSync, createReadStream, createWriteStream } from 'fs';
 import { messages } from './settings.js';
-import { writeFile, access, rename, rm } from 'fs/promises';
+import { rename, rm } from 'fs/promises';
 import { dirname, resolve, basename } from 'path';
 
 export const cat = async (path) => {
@@ -29,14 +29,11 @@ export const cat = async (path) => {
 
 export const addFile = async (path, filename) => {
   const file = resolve(path, filename);
-  if (!(await access(file))) {
-    try {
-      await writeFile(file, '');
-    } catch (error) {
-      console.log(error.message);
-    }
-  } else {
-    console.log(messages.fileExists);
+  try {
+    const writer = createWriteStream(file, 'utf-8');
+    writer.write('');
+  } catch (error) {
+    console.log(messages.operationFailed);
   }
 };
 
